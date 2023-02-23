@@ -1,0 +1,24 @@
+{
+  "name": "vite-starter",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.1.4"
+  },
+  "dependencies": {
+    "@near-wallet-selector/core": "^7.8.2",
+    "@near-wallet-selector/modal-ui": "^7.8.2",
+    "@near-wallet-selector/near-wallet": "^7.8.2",
+    "@near-wallet-selector/wallet-connect": "^7.8.2",
+    "buffer": "^6.0.3",
+    "install": "^0.13.0",
+    "near-api-js": "^1.1.0",
+    "npm": "^9.5.1"
+  }
+}
