@@ -22,9 +22,11 @@ modal.show();
 
 const selectorWallet = await selector.wallet();
 const selectorAccount = (await selectorWallet.getAccounts()).shift(); // Get the 1st account
+const accountId = selectorAccount.accountId;
+const networkId = 'testnet';
 
 const config = {
-  networkId: 'testnet',
+  networkId,
   keyStore: new nearAPI.keyStores.BrowserLocalStorageKeyStore(),
   nodeUrl: 'https://rpc.testnet.near.org',
 };
@@ -32,8 +34,31 @@ const config = {
 const near = await nearAPI.connect(config);
 const signer = near.connection.signer;
 const signerPublicKey = (
-  await signer.getPublicKey(selectorAccount.accountId, config.networkId)
+  await signer.getPublicKey(accountId, config.networkId)
 ).toString();
 
-console.log(selectorAccount);
-console.log(signerPublicKey);
+const account = new nearAPI.Account(near.connection, accountId);
+
+const nonce = (await account.getAccessKeys())
+  .find((k) => k.public_key === signerPublicKey)
+  .access_key.nonce.toString();
+
+const accountData = Buffer.from(JSON.stringify({ id: accountId, nonce }));
+const signatureData = await signer.signMessage(
+  accountData,
+  accountId,
+  networkId
+);
+
+const publicKey = Buffer.from(signatureData.publicKey.toString());
+const signature = Buffer.from(signatureData.signature);
+
+const credentials = Buffer.from(
+  JSON.stringify({
+    account: accountData.toString('base64'),
+    publicKey: publicKey.toString('base64'),
+    signature: signature.toString('base64'),
+  })
+).toString('base64');
+
+console.log(credentials);
