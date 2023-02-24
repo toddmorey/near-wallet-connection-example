@@ -62,7 +62,7 @@ const credentials = Buffer.from(
 
 console.log(credentials);
 
-const response = await fetch('http://auth.testnet.onmachina.io/auth/v1', {
+const response = await fetch('https://auth.testnet.onmachina.io/auth/v1', {
   method: 'GET',
   headers: {
       'x-auth-user': 'any',
@@ -78,7 +78,7 @@ const response = await fetch('http://auth.testnet.onmachina.io/auth/v1', {
 //       'x-auth-user': 'any',
 //       'x-auth-key': credentials
 //   },
-// });    
+// });
 
 
 // Console log the response
