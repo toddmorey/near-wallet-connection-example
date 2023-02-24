@@ -103,6 +103,9 @@ const submit = () => {
   var request = new XMLHttpRequest();
 
   request.onreadystatechange = function (oEvent) {
+
+      let responseHeaders = '';
+
       if (request.readyState == 4) {
           responseHeaders = 'Status: ' + request.status;
           responseHeaders = responseHeaders + '\nStatus Text: ' + request.statusText;
