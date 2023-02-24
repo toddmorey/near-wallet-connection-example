@@ -86,6 +86,66 @@ const contentType = response.headers.get('content-type');
 console.log(contentType);
 const data = await response.text();
 console.log(data);
+response.headers.forEach(function(val, key) { console.log(key + ' -> ' + val); });
+
+// Retrieve the x-auth-token
 const x_auth_token = response.headers.get('x-auth-token');
-console.log("x-auth-token",x_auth_token);
+document.getElementById("token").value = x_auth_token;
+
+const submit = () => {
+  var token = document.getElementById('token').value;
+  var method = document.getElementById('method').value;
+  var url = document.getElementById('url').value;
+
+  document.getElementById('response_headers').textContent = null;
+  document.getElementById('response_body').textContent = null;
+
+  var request = new XMLHttpRequest();
+
+  request.onreadystatechange = function (oEvent) {
+      if (request.readyState == 4) {
+          responseHeaders = 'Status: ' + request.status;
+          responseHeaders = responseHeaders + '\nStatus Text: ' + request.statusText;
+          responseHeaders = responseHeaders + '\n\n' + request.getAllResponseHeaders();
+          document.getElementById('response_headers').textContent = responseHeaders;
+          document.getElementById('response_body').textContent = request.responseText;
+      }
+  }
+
+  request.open(method, url);
+  if (token != '') {
+      // custom headers always trigger a pre-flight request
+      request.setRequestHeader('X-Auth-Token', token);
+  }
+  request.send(null);
+}
+
+const input = document.getElementById('submit');
+input.addEventListener('click', submit, false);
+
+// const upload = (file) => {
+//   fetch('https://api.testnet.onmachina.io/v1/toddmorey.testnet/testcontainer/', { // Your POST endpoint
+//     method: 'POST',
+//     headers: {
+//       // Content-Type may need to be completely **omitted**
+//       // or you may need something
+//       "Content-Type": file.type,
+//       "x-auth-token": x_auth_token
+//     },
+//     body: file // This is your file object
+//   }).then(
+//     response => response.json() // if the response is a JSON object
+//   ).then(
+//     success => console.log(success) // Handle the success response object
+//   ).catch(
+//     error => console.log(error) // Handle the error response object
+//   );
+// };
+
+// // Event handler executed when a file is selected
+// const onSelectFile = () => upload(input.files[0]);
+
+// // Add a listener to file input
+// const input = document.getElementById('fileinput');
+// input.addEventListener('change', onSelectFile, false);
 

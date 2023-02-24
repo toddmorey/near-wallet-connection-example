@@ -7,7 +7,27 @@
     <title>Vite App</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      Token<br><input id="token" type="text" size="64"><br><br>
+
+      Method<br>
+      <select id="method">
+          <option value="GET">GET</option>
+          <option value="HEAD">HEAD</option>
+          <option value="POST">POST</option>
+          <option value="DELETE">DELETE</option>
+          <option value="PUT">PUT</option>
+      </select><br><br>
+  
+      URL (Container or Object)<br><input id="url" size="64" type="text"><br><br>
+  
+      <input id="submit" type="button" value="Submit">
+  
+      <pre id="response_headers"></pre>
+      <p>
+      <hr>
+      <pre id="response_body"></pre>
+    </div>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
