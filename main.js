@@ -1,7 +1,6 @@
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
-import { setupWalletConnect } from '@near-wallet-selector/wallet-connect';
 import { Buffer } from 'buffer';
 import '@near-wallet-selector/modal-ui/styles.css';
 import * as nearAPI from 'near-api-js';
@@ -62,3 +61,31 @@ const credentials = Buffer.from(
 ).toString('base64');
 
 console.log(credentials);
+
+const response = await fetch('http://auth.testnet.onmachina.io/auth/v1', {
+  method: 'GET',
+  headers: {
+      'x-auth-user': 'any',
+      'x-auth-key': credentials
+  },
+});
+
+// Same as above, but using the proxy configured in vite.config.js
+
+// const response = await fetch('/api', {
+//   method: 'GET',
+//   headers: {
+//       'x-auth-user': 'any',
+//       'x-auth-key': credentials
+//   },
+// });    
+
+
+// Console log the response
+const contentType = response.headers.get('content-type');
+console.log(contentType);
+const data = await response.text();
+console.log(data);
+const x_auth_token = response.headers.get('x-auth-token');
+console.log("x-auth-token",x_auth_token);
+
